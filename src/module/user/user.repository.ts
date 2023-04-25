@@ -1,5 +1,4 @@
 import { UserDto, UserFull } from 'core/interface/user.interface';
-import { error } from 'console';
 import User from '../../core/entity/user.entity';
 
 export interface UserRepository {
@@ -24,13 +23,13 @@ export class UserRepositoryImpl implements UserRepository {
   };
 
   updateById = async (id: number, user: UserDto): Promise<UserFull | null> => {
-    const candidate = await User.findOne({ where: { id }, raw: true });
+    const candidate = await User.findOne({ where: { id } });
 
     if (!candidate) {
       throw new Error('User already exists error!');
     }
-    candidate.set(user);
-    await candidate.save();
+
+    await candidate.update(user);
 
     return candidate;
   };
