@@ -1,24 +1,27 @@
-import userRepository from '../../core/entity/user.enrity';
-import IUser from '../../core/interface/IUser';
+import { UserDto, UserFull } from '../../core/interface/user.interface';
+import { UserRepository } from './user.repository';
 
 export class UserService {
-  createUser = async (user: IUser): Promise<IUser> => {
-    const results = await userRepository.create({ ...user });
+  private readonly userRepository: UserRepository;
+
+  constructor(userRepository: UserRepository) {
+    this.userRepository = userRepository;
+  }
+
+  createUser = async (user: UserDto): Promise<UserFull> => {
+    const results = await this.userRepository.create({ ...user });
     return results;
   };
 
-  readUser = async (id: number): Promise<IUser | null> => {
-    const user: IUser | null = await userRepository.findOne({ where: { id }, raw: true });
+  readUser = async (id: number): Promise<UserFull | null> => {
+    const user = await this.userRepository.findOneById(id);
     return user;
   };
 
-  updateUser = async (id: number, user: IUser): Promise<IUser | null> => {
-    const candidate = await userRepository.findOne({ where: { id }, raw: true });
-
-    candidate?.update({ ...user });
-
+  updateUser = async (id: number, user: UserDto): Promise<UserFull | null> => {
+    const candidate = await this.userRepository.updateById(id, user);
     return candidate;
   };
 
-  deleteByIdUser = async (id: number): Promise<number> => userRepository.destroy({ where: { id } });
+  deleteByIdUser = async (id: number): Promise<number> => this.userRepository.deleteById(id);
 }
