@@ -1,29 +1,24 @@
-import httpStatus from 'http-status';
-import { log } from 'console';
+import userRepository from '../../core/entity/user.enrity';
 import IUser from '../../core/interface/IUser';
-import AppError from '../../core/utils/AppError';
 
-let userStorage: Array<IUser> = [{ name: '', id: 1, email: '' }];
+export class UserService {
+  createUser = async (user: IUser): Promise<IUser> => {
+    const results = await userRepository.create({ ...user });
+    return results;
+  };
 
-const createUser = (user: IUser): boolean => {
-  if (userStorage.push(user)) {
-    log(userStorage);
-    return true;
-  }
+  readUser = async (id: number): Promise<IUser | null> => {
+    const user: IUser | null = await userRepository.findOne({ where: { id }, raw: true });
+    return user;
+  };
 
-  throw new AppError(httpStatus.BAD_GATEWAY, 'User was not created!');
-};
+  updateUser = async (id: number, user: IUser): Promise<IUser | null> => {
+    const candidate = await userRepository.findOne({ where: { id }, raw: true });
 
-const readUser = (id: number): IUser => userStorage[id];
+    candidate?.update({ ...user });
 
-const updateUser = (user: IUser): boolean => {
-  userStorage = userStorage.map((u) => (u.id === user.id ? { ...u, updatedField: 1 } : u));
-  return true;
-};
+    return candidate;
+  };
 
-const deleteByIdUser = (id: number) => {
-  userStorage = userStorage.filter((_: IUser, index: number) => index !== id);
-  return true;
-};
-
-export { createUser, readUser, updateUser, deleteByIdUser };
+  deleteByIdUser = async (id: number): Promise<number> => userRepository.destroy({ where: { id } });
+}

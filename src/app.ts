@@ -1,18 +1,35 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import user from './module/user/user.router';
+// import config from './core/config/ormconfig';
+import sequelize from './core/config/config';
 
 dotenv.config();
 
 const PORT: number | string = process.env.PORT || 3000;
 
-const app: Application = express();
+async function connect() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
 
-app.use(express.json());
+const startServer = async () => {
+  const app: Application = express();
 
-app.use('/api', user);
+  connect();
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`🚀 Server ready at http://localhost:${PORT}`);
-});
+  app.use(express.json());
+
+  app.use('/api', user);
+
+  app.listen(PORT, () => {
+    // eslint-disable-next-line no-console
+    console.log(`🚀 Server ready at http://localhost:${PORT}`);
+  });
+};
+
+startServer();
