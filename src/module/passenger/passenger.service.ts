@@ -1,25 +1,26 @@
-import { PassengerDto, PassengerFull } from '../../core/interface/passenger.interface';
-import { PassengerRepository } from './passenger.repository';
+import Passenger from '../../core/entity/passenger.entity';
+import { NotesDto, PassengerFull } from '../../core/interface/passenger.interface';
 
 export class PassengerService {
-  private readonly passengerRepository: PassengerRepository;
-
-  constructor(passengerRepository: PassengerRepository) {
-    this.passengerRepository = passengerRepository;
-  }
-
   getOneUser = async (id: number): Promise<PassengerFull | null> => {
-    const passenger = await this.passengerRepository.findOneById(id);
+    const passenger = await Passenger.findOne({ where: { id }, raw: true });
     return passenger;
   };
 
   getAllUser = async (): Promise<PassengerFull[] | null> => {
-    const passengers = await this.passengerRepository.findAll();
+    const passengers = await Passenger.findAll();
     return passengers;
   };
 
-  updateUser = async (id: number, passengerDto: PassengerDto): Promise<PassengerFull | null> => {
-    const passenger = await this.passengerRepository.updateById(id, passengerDto);
+  updateUser = async (id: number, passengerDto: NotesDto): Promise<PassengerFull | null> => {
+    const passenger = await Passenger.findOne({ where: { id } });
+
+    if (!passenger) {
+      throw new Error("Passenger  doesn't exists error!");
+    }
+
+    await passenger.update(passengerDto);
+
     return passenger;
   };
 }

@@ -1,8 +1,8 @@
-export interface PassengerDto {
+export interface NotesDto {
   notes: string;
 }
 
-export interface PassengerFull extends PassengerDto {
+export interface PassengerFull extends NotesDto {
   readonly id: number;
   readonly fullName: string;
   readonly document: string;

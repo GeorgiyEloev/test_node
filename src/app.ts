@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import userRouter from './module/passenger/passenger.router';
+import routers from './api';
+import { logger } from './core/utils/logger';
 import sequelize from './core/config/sequelize.connection';
 
 dotenv.config();
@@ -10,25 +11,22 @@ const PORT = process.env.PORT || 3000;
 async function connect() {
   try {
     await sequelize.authenticate();
-    // eslint-disable-next-line no-console
-    console.log('Connection has been established successfully.');
+    logger.info('Connection has been established successfully.');
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Unable to connect to the database:', error);
+    logger.info('Unable to connect to the database:', error);
   }
 }
 
 const startServer = async () => {
   const app: Application = express();
-  connect();
+  await connect();
 
   app.use(express.json());
 
-  app.use('/api', userRouter);
+  app.use('/api', routers);
 
   app.listen(PORT, () => {
-    // eslint-disable-next-line no-console
-    console.log(`🚀 Server ready at http://localhost:${PORT}`);
+    logger.info(`🚀 Server ready at http://localhost:${PORT}`);
   });
 };
 

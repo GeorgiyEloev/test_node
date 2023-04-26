@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { PassengerDto } from '../../core/interface/passenger.interface';
+import { NotesDto } from '../../core/interface/passenger.interface';
 import { PassengerService } from './passenger.service';
-import { PassengerRepositoryImpl } from './passenger.repository';
 
 export class PassengerController {
   private readonly passengerService: PassengerService;
 
   constructor() {
-    this.passengerService = new PassengerService(new PassengerRepositoryImpl());
+    this.passengerService = new PassengerService();
   }
 
   getOneController = async (req: Request, res: Response) => {
@@ -26,7 +25,7 @@ export class PassengerController {
   };
 
   updateController = async (req: Request, res: Response) => {
-    const passenger = req.body as PassengerDto;
+    const passenger = req.body as NotesDto;
     const result = await this.passengerService.updateUser(+req.params.id, passenger);
     res.status(httpStatus.OK);
     res.send({ message: 'Updated', data: result });
