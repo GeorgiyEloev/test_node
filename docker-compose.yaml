@@ -4,14 +4,30 @@ services:
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: test
-      MYSQL_DATABASE: test
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: ${PASSWORD_DB}
+      MYSQL_DATABASE: ${NAME_DB}
+      MYSQL_USER: ${USERNAME_DB}
+      MYSQL_PASSWORD: ${PASSWORD_DB}
     ports:
       - 3306:3306
     volumes:
       - mysqldata:/var/lib/mysql
 
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn start
+    ports:
+      - 8000:8000
+    env_file: .env
+    environment:
+      HOST_DB: mysql_db
+    volumes:
+      - serverdata:/app/src
+    depends_on:
+      - db
+
 volumes:
   mysqldata:
+  serverdata:

@@ -1,12 +1,11 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import user from './module/user/user.router';
-// import config from './core/config/ormconfig';
-import sequelize from './core/config/config';
+import userRouter from './module/passenger/passenger.router';
+import sequelize from './core/config/sequelize.connection';
 
 dotenv.config();
 
-const PORT: number | string = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 async function connect() {
   try {
@@ -25,7 +24,7 @@ const startServer = async () => {
 
   app.use(express.json());
 
-  app.use('/api', user);
+  app.use('/api', userRouter);
 
   app.listen(PORT, () => {
     // eslint-disable-next-line no-console
