@@ -1,63 +1,70 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.connection';
-import { RoleEnum } from '../enum/role.enum';
-import Employee from './employee.entity';
+import Country from './country.entuty';
 
-class RoleEmployee extends Model<InferAttributes<RoleEmployee>, InferCreationAttributes<RoleEmployee>> {
+class Station extends Model<InferAttributes<Station>, InferCreationAttributes<Station>> {
   declare id: CreationOptional<number>;
 
-  // TODO: declare Рейс_id: string; соединить с таблицей рейс
+  declare name: string;
 
-  declare role: RoleEnum;
+  declare timeZone: string;
 
-  declare employeeId: number;
+  declare address: string;
+
+  declare countryId: number;
 
   declare createdAt: CreationOptional<Date>;
 
   declare updatedAt: CreationOptional<Date>;
 }
 
-RoleEmployee.init(
+Station.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
-    role: {
-      type: DataTypes.ENUM,
-      values: [RoleEnum.CONDUCTOR, RoleEnum.LMT],
+    name: {
+      type: DataTypes.STRING(128),
       allowNull: false,
     },
-    employeeId: {
+    timeZone: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
+    countryId: {
       type: DataTypes.INTEGER.UNSIGNED,
       references: {
-        model: Employee,
+        model: Country,
         key: 'id',
       },
       onDelete: 'CASCADE',
-      unique: true,
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
   {
-    tableName: 'role_employees',
+    tableName: 'stations',
     sequelize,
   },
 );
 
-Employee.hasOne(RoleEmployee, {
+Country.hasMany(Station, {
   foreignKey: {
-    name: 'employeeId',
+    name: 'countryId',
     allowNull: false,
   },
 });
-RoleEmployee.belongsTo(Employee, {
+Station.belongsTo(Country, {
   foreignKey: {
-    name: 'employeeId',
+    name: 'countryId',
     allowNull: false,
   },
 });
 
-export default RoleEmployee;
+export default Station;
