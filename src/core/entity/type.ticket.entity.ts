@@ -1,7 +1,7 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.connection';
 
-class Rate extends Model<InferAttributes<Rate>, InferCreationAttributes<Rate>> {
+class TypeTicket extends Model<InferAttributes<TypeTicket>, InferCreationAttributes<TypeTicket>> {
   declare id: CreationOptional<number>;
 
   declare name: string;
@@ -13,7 +13,7 @@ class Rate extends Model<InferAttributes<Rate>, InferCreationAttributes<Rate>> {
   declare updatedAt: CreationOptional<Date>;
 }
 
-Rate.init(
+TypeTicket.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -32,9 +32,9 @@ Rate.init(
     updatedAt: DataTypes.DATE,
   },
   {
-    tableName: 'rates',
+    tableName: 'types_ticket',
     sequelize,
   },
 );
 
-export default Rate;
+export default TypeTicket;
