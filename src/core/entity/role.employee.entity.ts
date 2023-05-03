@@ -6,8 +6,6 @@ import Employee from './employee.entity';
 class RoleEmployee extends Model<InferAttributes<RoleEmployee>, InferCreationAttributes<RoleEmployee>> {
   declare id: CreationOptional<number>;
 
-  // TODO: declare Рейс_id: string; соединить с таблицей рейс
-
   declare role: RoleEnum;
 
   declare employeeId: number;

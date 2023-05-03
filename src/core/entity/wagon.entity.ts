@@ -10,8 +10,6 @@ class Wagon extends Model<InferAttributes<Wagon>, InferCreationAttributes<Wagon>
 
   declare factoryNumber: string;
 
-  // TODO: declare Рейс_id: string; соединить с таблицей рейс
-
   declare typeWagon: string; // TODO: возможно enum
 
   declare serviceClass: string; // TODO: возможно enum/ или другая таблица
