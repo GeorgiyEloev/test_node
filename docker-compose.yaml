@@ -13,20 +13,20 @@ services:
     volumes:
       - mysqldata:/var/lib/mysql
 
-  # server:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   command: yarn start
-  #   ports:
-  #     - 8000:8000
-  #   env_file: .env
-  #   environment:
-  #     HOST_DB: mysql_db
-  #   volumes:
-  #     - serverdata:/app/src
-  #   depends_on:
-  #     - db
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn start
+    ports:
+      - 8000:8000
+    env_file: .env
+    environment:
+      HOST_DB: mysql_db
+    volumes:
+      - serverdata:/app/src
+    depends_on:
+      - db
 
 volumes:
   mysqldata:
