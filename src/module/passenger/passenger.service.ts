@@ -1,15 +1,9 @@
-import Route from '../../core/entity/route.entity';
-import Station from '../../core/entity/station.entity';
 import Passenger from '../../core/entity/passenger.entity';
 import { NotesDto, PassengerFull } from '../../core/interface/passenger.interface';
 
 export class PassengerService {
   getOneUser = async (id: number): Promise<any | null> => {
-    // const passenger = await Passenger.findOne({ where: { id }, raw: true });
-
-    const passenger = await Station.findAll({
-      include: { model: Route, as: 'stationRoutes' },
-    });
+    const passenger = await Passenger.findOne({ where: { id }, raw: true });
 
     return passenger;
   };
