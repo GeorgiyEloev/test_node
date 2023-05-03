@@ -2,7 +2,7 @@ import Passenger from '../../core/entity/passenger.entity';
 import { NotesDto, PassengerFull } from '../../core/interface/passenger.interface';
 
 export class PassengerService {
-  getOneUser = async (id: number): Promise<any | null> => {
+  getOneUser = async (id: number): Promise<PassengerFull | null> => {
     const passenger = await Passenger.findOne({ where: { id }, raw: true });
 
     return passenger;
