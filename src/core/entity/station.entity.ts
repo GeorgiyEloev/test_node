@@ -1,6 +1,6 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.connection';
-import Country from './country.entuty';
+import Country from './country.entity';
 
 class Station extends Model<InferAttributes<Station>, InferCreationAttributes<Station>> {
   declare id: CreationOptional<number>;

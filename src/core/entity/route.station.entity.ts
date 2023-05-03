@@ -1,46 +1,58 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.connection';
 
-class WagonRoleEmployee extends Model<InferAttributes<WagonRoleEmployee>, InferCreationAttributes<WagonRoleEmployee>> {
+class RouteStation extends Model<InferAttributes<RouteStation>, InferCreationAttributes<RouteStation>> {
   declare id: CreationOptional<number>;
 
-  declare wagonId: number;
+  declare routeId: number;
 
-  declare roleEmployeeId: number;
+  declare stationId: number;
+
+  declare departureTime: Date;
+
+  declare arrivalTime: Date;
 
   declare createdAt: CreationOptional<Date>;
 
   declare updatedAt: CreationOptional<Date>;
 }
 
-WagonRoleEmployee.init(
+RouteStation.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
-    wagonId: {
+    routeId: {
       type: DataTypes.INTEGER.UNSIGNED,
       references: {
-        model: 'wagons',
+        model: 'routes',
         key: 'id',
       },
     },
-    roleEmployeeId: {
+    stationId: {
       type: DataTypes.INTEGER.UNSIGNED,
       references: {
-        model: 'role_employees',
+        model: 'stations',
         key: 'id',
       },
+    },
+    departureTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    arrivalTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
   {
-    tableName: 'wagon_role_employee',
+    tableName: 'route_station',
     sequelize,
   },
 );
 
-export default WagonRoleEmployee;
+export default RouteStation;

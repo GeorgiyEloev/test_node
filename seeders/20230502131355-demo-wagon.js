@@ -131,8 +131,8 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction((t) =>
       Promise.all([
-        queryInterface.bulkDelete('wagons', { id: [1, 2, 3, 4, 5, 6] }, { transaction: t }),
         queryInterface.bulkDelete('wagon_role_employee', { id: [1, 2, 3, 4, 5, 6, 7] }, { transaction: t }),
+        queryInterface.bulkDelete('wagons', { id: [1, 2, 3, 4, 5, 6] }, { transaction: t }),
       ]),
     );
   },
