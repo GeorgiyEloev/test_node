@@ -7,9 +7,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-
-      // TODO: declare Рейс_id: string; соединить с таблицей рейс
-
       role: {
         type: Sequelize.DataTypes.ENUM,
         values: ['ЛНП', 'проводник'],
