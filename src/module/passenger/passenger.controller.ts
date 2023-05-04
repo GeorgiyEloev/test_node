@@ -27,6 +27,7 @@ export class PassengerController {
   updateController = async (req: Request, res: Response) => {
     const passenger = req.body as NotesDto;
     const result = await this.passengerService.updateUser(+req.params.id, passenger);
+
     res.status(httpStatus.OK);
     res.send({ message: 'Updated', data: result });
   };
