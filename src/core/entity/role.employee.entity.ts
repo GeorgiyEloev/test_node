@@ -45,17 +45,4 @@ RoleEmployee.init(
   },
 );
 
-Employee.hasOne(RoleEmployee, {
-  foreignKey: {
-    name: 'employeeId',
-    allowNull: false,
-  },
-});
-RoleEmployee.belongsTo(Employee, {
-  foreignKey: {
-    name: 'employeeId',
-    allowNull: false,
-  },
-});
-
 export default RoleEmployee;

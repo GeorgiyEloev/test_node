@@ -1,7 +1,5 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.connection';
-import WagonRoleEmployee from './wagon.role.employee.entity';
-import RoleEmployee from './role.employee.entity';
 
 class Wagon extends Model<InferAttributes<Wagon>, InferCreationAttributes<Wagon>> {
   declare id: CreationOptional<number>;
@@ -58,8 +56,5 @@ Wagon.init(
     sequelize,
   },
 );
-
-Wagon.belongsToMany(RoleEmployee, { through: WagonRoleEmployee, foreignKey: 'wagonId' });
-RoleEmployee.belongsToMany(Wagon, { through: WagonRoleEmployee, foreignKey: 'roleEmployeeId' });
 
 export default Wagon;

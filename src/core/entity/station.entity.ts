@@ -54,17 +54,4 @@ Station.init(
   },
 );
 
-Country.hasMany(Station, {
-  foreignKey: {
-    name: 'countryId',
-    allowNull: false,
-  },
-});
-Station.belongsTo(Country, {
-  foreignKey: {
-    name: 'countryId',
-    allowNull: false,
-  },
-});
-
 export default Station;

@@ -2,10 +2,6 @@ import { Model, InferAttributes, InferCreationAttributes, CreationOptional, Data
 import sequelize from '../config/sequelize.connection';
 import { StatusFlight } from '../enum/status.flight.enum';
 import Route from './route.entity';
-import FlightEmployee from './flight.employee.entity';
-import RoleEmployee from './role.employee.entity';
-import Wagon from './wagon.entity';
-import FlightWagon from './flight.wagon.entity';
 
 class Flight extends Model<InferAttributes<Flight>, InferCreationAttributes<Flight>> {
   declare id: CreationOptional<number>;
@@ -72,14 +68,5 @@ Flight.init(
     sequelize,
   },
 );
-
-Route.hasOne(Flight, { foreignKey: { name: 'routeId', allowNull: false } });
-Flight.belongsTo(Route, { foreignKey: { name: 'routeId', allowNull: false } });
-
-Flight.belongsToMany(RoleEmployee, { through: FlightEmployee, foreignKey: 'flightId' });
-RoleEmployee.belongsToMany(Flight, { through: FlightEmployee, foreignKey: 'roleEmployeeId' });
-
-Flight.belongsToMany(Wagon, { through: FlightWagon, foreignKey: 'flightId' });
-Wagon.belongsToMany(Flight, { through: FlightWagon, foreignKey: 'wagonId' });
 
 export default Flight;

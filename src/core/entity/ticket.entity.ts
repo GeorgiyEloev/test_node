@@ -152,24 +152,4 @@ Ticket.init(
   },
 );
 
-Ticket.hasMany(Ticket, { as: 'subTickets', foreignKey: 'guardianTicketId' });
-Ticket.belongsTo(Ticket, { as: 'parentTicket', foreignKey: 'guardianTicketId' });
-
-Flight.hasMany(Ticket, { foreignKey: { name: 'flightId', allowNull: false } });
-Ticket.belongsTo(Flight, { foreignKey: { name: 'flightId', allowNull: false } });
-
-Station.hasMany(Ticket, { as: 'startTickets', foreignKey: { name: 'startStationId', allowNull: false } });
-Station.hasMany(Ticket, { as: 'endTickets', foreignKey: { name: 'endStationId', allowNull: false } });
-Ticket.belongsTo(Station, { as: 'endStation', foreignKey: { name: 'endStationId', allowNull: false } });
-Ticket.belongsTo(Station, { as: 'startStation', foreignKey: { name: 'startStationId', allowNull: false } });
-
-TypeTicket.hasMany(Ticket, { foreignKey: { name: 'typeTicketId', allowNull: false } });
-Ticket.belongsTo(TypeTicket, { foreignKey: { name: 'typeTicketId', allowNull: false } });
-
-Passenger.hasMany(Ticket, { foreignKey: { name: 'passengerId', allowNull: false } });
-Ticket.belongsTo(Passenger, { foreignKey: { name: 'passengerId', allowNull: false } });
-
-Rate.hasMany(Ticket, { foreignKey: { name: 'rateId', allowNull: false } });
-Ticket.belongsTo(Rate, { foreignKey: { name: 'rateId', allowNull: false } });
-
 export default Ticket;

@@ -1,7 +1,6 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelize.connection';
 import Station from './station.entity';
-import RouteStation from './route.station.entity';
 
 class Route extends Model<InferAttributes<Route>, InferCreationAttributes<Route>> {
   declare id: CreationOptional<number>;
@@ -51,14 +50,5 @@ Route.init(
     sequelize,
   },
 );
-
-Station.hasMany(Route, { as: 'startRoutes', foreignKey: 'startStationId' });
-Station.hasMany(Route, { as: 'endRoutes', foreignKey: 'endStationId' });
-
-Route.belongsTo(Station, { as: 'endStation', foreignKey: 'endStationId' });
-Route.belongsTo(Station, { as: 'startStation', foreignKey: 'startStationId' });
-
-Station.belongsToMany(Route, { through: RouteStation, foreignKey: 'stationId', as: 'stationRoutes' });
-Route.belongsToMany(Station, { through: RouteStation, foreignKey: 'routeId', as: 'routeStations' });
 
 export default Route;
