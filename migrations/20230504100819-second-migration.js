@@ -322,14 +322,14 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction((t) =>
       Promise.all([
-        queryInterface.dropTable('wagons', { transaction: t }),
         queryInterface.dropTable('wagon_role_employee', { transaction: t }),
-        queryInterface.dropTable('routes', { transaction: t }),
         queryInterface.dropTable('route_station', { transaction: t }),
-        queryInterface.dropTable('flights', { transaction: t }),
         queryInterface.dropTable('flight_employee', { transaction: t }),
         queryInterface.dropTable('flight_wagon', { transaction: t }),
         queryInterface.dropTable('tickets', { transaction: t }),
+        queryInterface.dropTable('routes', { transaction: t }),
+        queryInterface.dropTable('wagons', { transaction: t }),
+        queryInterface.dropTable('flights', { transaction: t }),
       ]),
     );
   },

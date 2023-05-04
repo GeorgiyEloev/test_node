@@ -1,8 +1,10 @@
 import { Router } from 'express';
 
-import userRouter from './module/passenger/passenger.router';
+import passengerRouter from './module/passenger/passenger.router';
+import employeeRouter from './module/employee/employee.router';
 
 const routers: Router = Router();
-routers.use(userRouter);
+routers.use(passengerRouter);
+routers.use(employeeRouter);
 
 export default routers;

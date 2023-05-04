@@ -4,6 +4,7 @@ import routers from './api';
 import { logger } from './core/utils/logger';
 import sequelize from './core/config/sequelize.connection';
 import { setRelationships } from './core/entity/relationships/relationships.set';
+import errorHandler from './core/utils/error.handler';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ const startServer = async () => {
   app.use(express.json());
 
   app.use('/api', routers);
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     logger.info(`🚀 Server ready at http://localhost:${PORT}`);

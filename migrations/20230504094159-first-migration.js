@@ -72,7 +72,7 @@ module.exports = {
               unique: true,
             },
             password: {
-              type: Sequelize.DataTypes.STRING(128),
+              type: Sequelize.DataTypes.STRING(255),
               allowNull: false,
             },
             notes: {
@@ -195,9 +195,9 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction((t) =>
       Promise.all([
-        queryInterface.dropTable('passengers', { transaction: t }),
-        queryInterface.dropTable('employees', { transaction: t }),
         queryInterface.dropTable('role_employees', { transaction: t }),
+        queryInterface.dropTable('employees', { transaction: t }),
+        queryInterface.dropTable('passengers', { transaction: t }),
         queryInterface.dropTable('countries', { transaction: t }),
         queryInterface.dropTable('stations', { transaction: t }),
         queryInterface.dropTable('types_ticket', { transaction: t }),
