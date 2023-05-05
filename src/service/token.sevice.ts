@@ -1,5 +1,6 @@
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import httpStatus from 'http-status';
 import AppError from '../core/utils/AppError';
 import { TokenDataType } from '../core/type/token.data.type';
 
@@ -17,7 +18,7 @@ export class TokenService {
 
       return accessToken;
     } catch (err) {
-      throw new AppError(500, 'Server error');
+      throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Server error');
     }
   };
 }

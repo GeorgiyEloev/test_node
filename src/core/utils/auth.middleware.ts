@@ -1,15 +1,14 @@
 import dotenv from 'dotenv';
+import httpStatus from 'http-status';
 import { verify } from 'jsonwebtoken';
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 
 import AppError from './AppError';
 import { TokenDataType } from '../type/token.data.type';
+import { ModifyRequest } from '../interface/custome.request.interface';
 
 dotenv.config();
 
-interface MyRequest extends Request {
-  id: number;
-}
 const ACCESS_KEY = process.env.JWT_ACCESS_KEY || '';
 
 const isAuthenticated = (authHeader: string | undefined): number => {
@@ -21,23 +20,23 @@ const isAuthenticated = (authHeader: string | undefined): number => {
         const user = verify(token, ACCESS_KEY) as TokenDataType;
         return user.id;
       } catch (err) {
-        throw new AppError(401, 'Invalid Token');
+        throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid Token');
       }
     } else {
-      throw new AppError(401, 'Incorrect Token');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'Incorrect Token');
     }
   } else {
-    throw new AppError(401, 'Not Header Auth');
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Not Header Auth');
   }
 };
 
-export const protectRouter = async (req: Request, res: Response, next: NextFunction) => {
+export const protectRouter = async (req: ModifyRequest, res: Response, next: NextFunction) => {
   try {
     const id = isAuthenticated(req.headers.authorization);
 
-    // req.id = id;
+    req.id = id;
     next();
-  } catch (err: any) {
+  } catch (err) {
     next(err);
   }
 };

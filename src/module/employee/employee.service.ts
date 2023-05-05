@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import httpStatus from 'http-status';
 import Employee from '../../core/entity/employee.entity';
 import AppError from '../../core/utils/AppError';
 import { AuthDto } from '../../core/interface/employee.interface';
@@ -15,12 +16,12 @@ export class EmployeeService {
     const user = await Employee.findOne({ where: { email: authDate.email }, raw: true });
 
     if (!user) {
-      throw new AppError(401, 'User not found error!');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'User not found error!');
     }
 
     const validPassword = bcrypt.compareSync(authDate.password, user.password);
     if (!validPassword) {
-      throw new AppError(401, 'User authorization error!');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'User authorization error!');
     }
 
     const accessToken = this.tokenService.generateToken({
