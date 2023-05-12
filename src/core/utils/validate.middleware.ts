@@ -1,21 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { ValidationResult } from 'joi';
+import { Schema } from 'joi';
 import { logger } from './logger';
-import { BodyType } from '../type/validate.type';
 
-const validate =
-  (schemaValidation: (data: BodyType) => ValidationResult<BodyType>) =>
-  (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schemaValidation(req.body);
+const validate = (schemaValidation: Schema) => (req: Request, res: Response, next: NextFunction) => {
+  const { error } = schemaValidation.validate(req.body);
 
-    if (error) {
-      logger.error(error);
-      const errors: string[] = [];
-      error.details.forEach((item) => errors.push(item.message));
-      return res.status(400).send({ message: 'Bad request', errors });
-    }
+  if (error) {
+    logger.error(error);
+    return res.status(400).send({ message: 'Bad request', error: error.details[0].message });
+  }
 
-    return next();
-  };
+  return next();
+};
 
 export default validate;
